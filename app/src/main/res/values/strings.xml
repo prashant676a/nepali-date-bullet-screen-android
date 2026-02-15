@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Date Bullet Screen</string>
+    <string name="wallpaper_name">Nepali Date Bullet Screen</string>
+    <string name="wallpaper_description">Dot-grid visualization of Nepali calendar year progress</string>
+</resources>

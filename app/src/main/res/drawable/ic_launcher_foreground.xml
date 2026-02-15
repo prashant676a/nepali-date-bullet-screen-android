@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Grid of dots representing the calendar -->
+    <group android:translateX="30" android:translateY="30">
+        <!-- Row 1 -->
+        <path android:fillColor="#FFFFFFFF" android:pathData="M6,6m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M18,6m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M30,6m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#FFFF4444" android:pathData="M42,6m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <!-- Row 2 -->
+        <path android:fillColor="#44FFFFFF" android:pathData="M6,18m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#44FFFFFF" android:pathData="M18,18m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#44FFFFFF" android:pathData="M30,18m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#44FFFFFF" android:pathData="M42,18m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <!-- Row 3 -->
+        <path android:fillColor="#44FFFFFF" android:pathData="M6,30m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#44FFFFFF" android:pathData="M18,30m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#44FFFFFF" android:pathData="M30,30m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+        <path android:fillColor="#44FFFFFF" android:pathData="M42,30m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+    </group>
+</vector>
