@@ -1,4 +1,4 @@
-package com.danphe.datebulletscreen.ui
+package com.prashant.datebulletscreen.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.danphe.datebulletscreen.core.calendar.NepaliDateConverter
-import com.danphe.datebulletscreen.core.calendar.NepaliDateUtils
+import com.prashant.datebulletscreen.core.calendar.NepaliDateConverter
+import com.prashant.datebulletscreen.core.calendar.NepaliDateUtils
 
 @Composable
 fun SettingsScreen(

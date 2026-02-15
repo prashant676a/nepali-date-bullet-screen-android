@@ -1,4 +1,4 @@
-package com.danphe.datebulletscreen.core.calendar
+package com.prashant.datebulletscreen.core.calendar
 
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit

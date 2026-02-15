@@ -1,9 +1,9 @@
-package com.danphe.datebulletscreen
+package com.prashant.datebulletscreen
 
-import com.danphe.datebulletscreen.core.calendar.NepaliDate
-import com.danphe.datebulletscreen.core.calendar.NepaliDateConverter
-import com.danphe.datebulletscreen.core.calendar.NepaliDateUtils
-import com.danphe.datebulletscreen.core.calendar.NepaliMonthData
+import com.prashant.datebulletscreen.core.calendar.NepaliDate
+import com.prashant.datebulletscreen.core.calendar.NepaliDateConverter
+import com.prashant.datebulletscreen.core.calendar.NepaliDateUtils
+import com.prashant.datebulletscreen.core.calendar.NepaliMonthData
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

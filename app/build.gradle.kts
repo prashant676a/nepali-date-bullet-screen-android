@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.danphe.datebulletscreen"
+    namespace = "com.prashant.datebulletscreen"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.danphe.datebulletscreen"
+        applicationId = "com.prashant.datebulletscreen"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

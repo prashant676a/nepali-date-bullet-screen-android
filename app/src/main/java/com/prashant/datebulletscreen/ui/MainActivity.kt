@@ -1,4 +1,4 @@
-package com.danphe.datebulletscreen.ui
+package com.prashant.datebulletscreen.ui
 
 import android.app.WallpaperManager
 import android.content.ComponentName
@@ -15,8 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.danphe.datebulletscreen.ui.theme.DateBulletScreenTheme
-import com.danphe.datebulletscreen.wallpaper.DateBulletWallpaperService
+import com.prashant.datebulletscreen.ui.theme.DateBulletScreenTheme
+import com.prashant.datebulletscreen.wallpaper.DateBulletWallpaperService
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

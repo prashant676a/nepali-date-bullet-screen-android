@@ -1,4 +1,4 @@
-package com.danphe.datebulletscreen.ui.theme
+package com.prashant.datebulletscreen.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme

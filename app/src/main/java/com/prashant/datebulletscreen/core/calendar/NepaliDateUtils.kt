@@ -1,4 +1,4 @@
-package com.danphe.datebulletscreen.core.calendar
+package com.prashant.datebulletscreen.core.calendar
 
 object NepaliDateUtils {
 

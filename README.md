@@ -1,4 +1,3 @@
-
 # Nepali Date Bullet Screen
 
 An Android Live Wallpaper that displays a dot-grid visualization of **Bikram Sambat (BS) calendar** year progress on your lock screen.
@@ -7,13 +6,12 @@ Each dot represents a day of the Nepali calendar year — bright dots for days p
 
 ## Features
 
-- **Live Wallpaper** — renders directly on your lock screen (Android 7.0+)
-- **Two view modes** — double-tap to switch between:
-  - **Days Grid**: ~365 dots in a flat 20-column grid
-  - **Months Grid**: Dots organized into 12 Nepali month blocks (Baisakh → Chaitra)
+- **Live Wallpaper** — renders directly on your lock screen (Android 8.0+)
+- **Months Grid** — 12 Nepali month blocks (Baisakh → Chaitra) in a 3×4 layout
 - **Hand-built BS calendar engine** — no external library, uses a 121-year lookup table (BS 1970–2090)
 - **Battery friendly** — redraws once per minute, essentially a static image
-- **Current date display** — shows BS date (e.g. "Magh 09, 2082") and progress ("83d left / 78%")
+- **Current date display** — shows BS date (e.g. "Falgun 03, 2082") and progress ("57d left / 84%")
+- **Progress bar** — visual indicator of year completion
 
 ## Screenshots
 
@@ -22,15 +20,15 @@ Each dot represents a day of the Nepali calendar year — bright dots for days p
 ## Project Structure
 
 ```
-com.danphe.datebulletscreen/
+com.prashant.datebulletscreen/
 ├── core/
 │   ├── calendar/
 │   │   ├── NepaliMonthData.kt      # Lookup table: days per month for BS 1970–2090
 │   │   ├── NepaliDate.kt           # Data class: year, month, day + formatting
-│   │   ├── NepaliDateConverter.kt  # AD ↔ BS date conversion
+│   │   ├── NepaliDateConverter.kt  # AD ↔ BS date conversion (java.time based)
 │   │   └── NepaliDateUtils.kt      # dayOfYear(), daysRemaining(), yearProgress()
 │   └── renderer/
-│       ├── DotGridRenderer.kt      # Canvas drawing for both grid views
+│       ├── DotGridRenderer.kt      # Canvas drawing for months grid
 │       ├── GridColors.kt           # Color constants (dark theme)
 │       └── GridDimensions.kt       # Responsive layout calculations
 ├── wallpaper/
@@ -60,23 +58,23 @@ The converter uses a known reference point:
 | 1970/01/01     | 1913/04/13      |
 
 **Algorithm** (`NepaliDateConverter.fromGregorian`):
-1. Calculate total days between the input AD date and the epoch (AD 1913/04/13)
+1. Calculate total days between the input AD date and the epoch using `java.time.ChronoUnit.DAYS`
 2. Walk forward through BS years (subtracting each year's total days) to find the year
 3. Walk forward through BS months to find the month and day
 
 ### Dot Grid Rendering
 
-`DotGridRenderer` draws directly on a `Canvas` using pre-allocated `Paint` objects (no allocations in the draw loop). It supports two modes:
+`DotGridRenderer` draws directly on a `Canvas` using pre-allocated `Paint` objects (no allocations in the draw loop):
 
-- **Days Grid**: All ~365 days in a flat grid, 20 columns wide
 - **Months Grid**: 3×4 layout of month blocks, each containing dots for that month's days
+- Current month label highlighted brighter
+- Progress bar + date text at the bottom
 
 ### Live Wallpaper
 
 `DateBulletWallpaperService` extends Android's `WallpaperService`:
 - Redraws on visibility change + once per minute via `Handler`
 - Cancels callbacks when not visible (battery optimization)
-- Handles double-tap via `GestureDetector` to toggle views
 
 ## Getting Started
 
@@ -96,7 +94,11 @@ The converter uses a known reference point:
 
 2. Open in Android Studio → let Gradle sync
 
-3. Connect your Android phone (USB debugging enabled) or create an emulator
+3. Connect your Android phone:
+   - Enable **Developer Options** (tap Build Number 7 times in Settings → About)
+   - Enable **USB Debugging** in Developer Options
+   - Enable **Install via USB** in Developer Options
+   - Connect phone via USB
 
 4. Click **Run** (▶) to install the app
 
@@ -109,8 +111,8 @@ The converter uses a known reference point:
 ```
 
 Tests verify:
-- Known AD/BS date conversions (e.g. BS 2082/10/09 = AD 2026/01/23)
-- Round-trip conversion (AD → BS → AD)
+- Known AD/BS date conversions (e.g. BS 2080/01/01 = AD 2023/04/14)
+- Round-trip conversion (AD → BS → AD) for multiple dates
 - Days-in-year calculations for multiple BS years
 - All 121 years have 364–367 days
 - Day-of-year arithmetic and progress calculations
@@ -131,6 +133,7 @@ Tests verify:
 
 - **No external Nepali calendar library** — the lookup table approach is simpler, has zero dependencies, and covers all practical years
 - **Canvas rendering over Compose** — Live Wallpapers require `WallpaperService` which provides a `Canvas`, not a Compose surface. Canvas is also more efficient for drawing hundreds of circles
+- **`java.time.LocalDate` for day arithmetic** — avoids DST rounding bugs that occur with `GregorianCalendar` millisecond math
 - **350px top margin** — avoids overlapping the lock screen clock on most devices
 - **Pre-allocated Paint objects** — avoids GC pressure during the draw loop
 

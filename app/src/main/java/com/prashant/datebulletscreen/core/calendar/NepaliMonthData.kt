@@ -1,4 +1,4 @@
-package com.danphe.datebulletscreen.core.calendar
+package com.prashant.datebulletscreen.core.calendar
 
 /**
  * Lookup table mapping BS year -> days in each of 12 months.

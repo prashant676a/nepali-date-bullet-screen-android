@@ -1,4 +1,4 @@
-package com.danphe.datebulletscreen.ui
+package com.prashant.datebulletscreen.ui
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,18 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.danphe.datebulletscreen.core.calendar.NepaliDateConverter
-import com.danphe.datebulletscreen.core.renderer.DotGridRenderer
-import com.danphe.datebulletscreen.core.renderer.GridDimensions
+import com.prashant.datebulletscreen.core.calendar.NepaliDateConverter
+import com.prashant.datebulletscreen.core.renderer.DotGridRenderer
+import com.prashant.datebulletscreen.core.renderer.GridDimensions
 
 @Composable
 fun PreviewScreen(onBack: () -> Unit) {
     val today = remember { NepaliDateConverter.today() }
     val renderer = remember { DotGridRenderer() }
-    var viewMode by remember { mutableStateOf(DotGridRenderer.ViewMode.DAYS) }
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
 
     Box(
@@ -43,21 +38,7 @@ fun PreviewScreen(onBack: () -> Unit) {
                     val bmp = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
                     val canvas = android.graphics.Canvas(bmp)
                     val dims = GridDimensions(size.width, size.height)
-                    renderer.draw(canvas, today, dims, viewMode)
-                    bitmap = bmp
-                }
-            }
-            .clickable {
-                viewMode = when (viewMode) {
-                    DotGridRenderer.ViewMode.DAYS -> DotGridRenderer.ViewMode.MONTHS
-                    DotGridRenderer.ViewMode.MONTHS -> DotGridRenderer.ViewMode.DAYS
-                }
-                // Force re-render by invalidating bitmap
-                bitmap?.let { oldBmp ->
-                    val bmp = Bitmap.createBitmap(oldBmp.width, oldBmp.height, Bitmap.Config.ARGB_8888)
-                    val canvas = android.graphics.Canvas(bmp)
-                    val dims = GridDimensions(oldBmp.width, oldBmp.height)
-                    renderer.draw(canvas, today, dims, viewMode)
+                    renderer.draw(canvas, today, dims)
                     bitmap = bmp
                 }
             }
@@ -65,13 +46,12 @@ fun PreviewScreen(onBack: () -> Unit) {
         bitmap?.let {
             Image(
                 bitmap = it.asImageBitmap(),
-                contentDescription = "Dot grid preview",
+                contentDescription = "Months grid preview",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.FillBounds
             )
         }
 
-        // Back button
         Text(
             text = "< Back",
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
@@ -80,16 +60,6 @@ fun PreviewScreen(onBack: () -> Unit) {
                 .statusBarsPadding()
                 .padding(16.dp)
                 .clickable { onBack() }
-        )
-
-        // Hint
-        Text(
-            text = "Tap to switch view",
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp)
         )
     }
 }
