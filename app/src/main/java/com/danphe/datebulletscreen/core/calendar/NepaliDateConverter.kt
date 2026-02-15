@@ -1,9 +1,16 @@
 package com.danphe.datebulletscreen.core.calendar
 
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import java.util.Calendar
-import java.util.GregorianCalendar
 
 object NepaliDateConverter {
+
+    private val EPOCH_AD = LocalDate.of(
+        NepaliMonthData.EPOCH_AD_YEAR,
+        NepaliMonthData.EPOCH_AD_MONTH,
+        NepaliMonthData.EPOCH_AD_DAY
+    )
 
     /**
      * Convert a Gregorian (AD) date to Bikram Sambat (BS).
@@ -14,14 +21,8 @@ object NepaliDateConverter {
      * 2. Walk through BS months consuming days until we land on the target date.
      */
     fun fromGregorian(adYear: Int, adMonth: Int, adDay: Int): NepaliDate {
-        val epoch = GregorianCalendar(
-            NepaliMonthData.EPOCH_AD_YEAR,
-            NepaliMonthData.EPOCH_AD_MONTH - 1, // Calendar months are 0-based
-            NepaliMonthData.EPOCH_AD_DAY
-        )
-        val target = GregorianCalendar(adYear, adMonth - 1, adDay)
-
-        var totalDays = daysBetween(epoch, target)
+        val target = LocalDate.of(adYear, adMonth, adDay)
+        var totalDays = ChronoUnit.DAYS.between(EPOCH_AD, target).toInt()
         require(totalDays >= 0) { "AD date $adYear/$adMonth/$adDay is before the epoch" }
 
         var bsYear = NepaliMonthData.MIN_YEAR
@@ -58,9 +59,9 @@ object NepaliDateConverter {
         )
     }
 
-    /** Convert BS date to Gregorian (AD). Returns a [GregorianCalendar]. */
-    fun toGregorian(bsYear: Int, bsMonth: Int, bsDay: Int): GregorianCalendar {
-        var totalDays = 0
+    /** Convert BS date to Gregorian (AD). Returns a [LocalDate]. */
+    fun toGregorian(bsYear: Int, bsMonth: Int, bsDay: Int): LocalDate {
+        var totalDays = 0L
 
         // Add days for complete years from epoch
         for (y in NepaliMonthData.MIN_YEAR until bsYear) {
@@ -75,17 +76,6 @@ object NepaliDateConverter {
         // Add remaining days (subtract 1 because day 1 is the epoch itself)
         totalDays += bsDay - 1
 
-        val result = GregorianCalendar(
-            NepaliMonthData.EPOCH_AD_YEAR,
-            NepaliMonthData.EPOCH_AD_MONTH - 1,
-            NepaliMonthData.EPOCH_AD_DAY
-        )
-        result.add(Calendar.DAY_OF_YEAR, totalDays)
-        return result
-    }
-
-    private fun daysBetween(from: Calendar, to: Calendar): Int {
-        val diffMs = to.timeInMillis - from.timeInMillis
-        return (diffMs / (24 * 60 * 60 * 1000)).toInt()
+        return EPOCH_AD.plusDays(totalDays)
     }
 }

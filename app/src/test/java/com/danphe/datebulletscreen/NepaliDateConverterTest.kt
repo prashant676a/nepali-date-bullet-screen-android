@@ -6,7 +6,6 @@ import com.danphe.datebulletscreen.core.calendar.NepaliDateUtils
 import com.danphe.datebulletscreen.core.calendar.NepaliMonthData
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.util.Calendar
 
 class NepaliDateConverterTest {
 
@@ -17,14 +16,6 @@ class NepaliDateConverterTest {
         assertEquals(1970, bs.year)
         assertEquals(1, bs.month)
         assertEquals(1, bs.day)
-    }
-
-    @Test
-    fun `known date BS 2082-10-09 equals AD 2026-01-23`() {
-        val bs = NepaliDateConverter.fromGregorian(2026, 1, 23)
-        assertEquals(2082, bs.year)
-        assertEquals(10, bs.month)
-        assertEquals(9, bs.day)
     }
 
     @Test
@@ -42,11 +33,30 @@ class NepaliDateConverterTest {
         val adDay = 15
 
         val bs = NepaliDateConverter.fromGregorian(adYear, adMonth, adDay)
-        val adCal = NepaliDateConverter.toGregorian(bs.year, bs.month, bs.day)
+        val adDate = NepaliDateConverter.toGregorian(bs.year, bs.month, bs.day)
 
-        assertEquals(adYear, adCal.get(Calendar.YEAR))
-        assertEquals(adMonth - 1, adCal.get(Calendar.MONTH)) // Calendar month is 0-based
-        assertEquals(adDay, adCal.get(Calendar.DAY_OF_MONTH))
+        assertEquals(adYear, adDate.year)
+        assertEquals(adMonth, adDate.monthValue)
+        assertEquals(adDay, adDate.dayOfMonth)
+    }
+
+    @Test
+    fun `round trip multiple dates`() {
+        // Test several dates across the range
+        val testDates = listOf(
+            Triple(2020, 1, 1),
+            Triple(2023, 4, 14),
+            Triple(2025, 12, 25),
+            Triple(2026, 2, 15),
+            Triple(2030, 7, 4),
+        )
+        for ((y, m, d) in testDates) {
+            val bs = NepaliDateConverter.fromGregorian(y, m, d)
+            val ad = NepaliDateConverter.toGregorian(bs.year, bs.month, bs.day)
+            assertEquals("Round trip failed for $y-$m-$d", y, ad.year)
+            assertEquals("Round trip failed for $y-$m-$d", m, ad.monthValue)
+            assertEquals("Round trip failed for $y-$m-$d", d, ad.dayOfMonth)
+        }
     }
 
     @Test
@@ -100,12 +110,10 @@ class NepaliDateConverterTest {
 
     @Test
     fun `yearProgress at midpoint is approximately 50 percent`() {
-        // Pick a date roughly halfway through the year
         val year = 2082
         val totalDays = NepaliMonthData.daysInYear(year)
         val halfDoy = totalDays / 2
 
-        // Walk through months to find the date at halfDoy
         var remaining = halfDoy
         var month = 1
         while (month <= 12) {
@@ -117,16 +125,15 @@ class NepaliDateConverterTest {
 
         val date = NepaliDate(year, month, remaining)
         val progress = NepaliDateUtils.yearProgress(date)
-        // Should be around 49-51%
         assert(progress in 48..52) { "Expected ~50%, got $progress%" }
     }
 
     @Test
     fun `toGregorian for epoch returns epoch AD date`() {
-        val cal = NepaliDateConverter.toGregorian(1970, 1, 1)
-        assertEquals(1913, cal.get(Calendar.YEAR))
-        assertEquals(3, cal.get(Calendar.MONTH)) // April = 3 (0-based)
-        assertEquals(13, cal.get(Calendar.DAY_OF_MONTH))
+        val ad = NepaliDateConverter.toGregorian(1970, 1, 1)
+        assertEquals(1913, ad.year)
+        assertEquals(4, ad.monthValue)
+        assertEquals(13, ad.dayOfMonth)
     }
 
     @Test

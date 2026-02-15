@@ -1,3 +1,4 @@
+
 # Nepali Date Bullet Screen
 
 An Android Live Wallpaper that displays a dot-grid visualization of **Bikram Sambat (BS) calendar** year progress on your lock screen.
