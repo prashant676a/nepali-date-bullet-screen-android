@@ -14,8 +14,9 @@ Each dot represents a day of the Nepali calendar year — bright dots for days p
 - **Progress bar** — visual indicator of year completion
 
 ## Screenshots
+<img width="946" height="2049" alt="image" src="https://github.com/user-attachments/assets/ca6abefb-0599-4c8d-9291-184fb681770a" />
 
-> _Coming soon — install the app and set it as your wallpaper to see it in action._
+
 
 ## Project Structure
 
